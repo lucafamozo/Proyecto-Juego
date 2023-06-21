@@ -42,7 +42,7 @@ flag_correr = True
 clock = pygame.time.Clock()
 
 # MÚSICA
-#musica.reproducir_musica_fondo()
+musica.reproducir_musica_fondo()
 
 # CREADOR DE BOTONES
 boton_jugar = botones.Button(screen, "img/boton_jugar.png", (500, 300, 200, 60))

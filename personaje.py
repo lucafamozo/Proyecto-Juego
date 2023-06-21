@@ -1,43 +1,32 @@
 import pygame
-import colores
+import random
 
 class Player:
-    def __init__(self) -> None:
-        ''', surface, rect_pos, rect
-        self.surface = surface
-        self.rect_pos = rect_pos
-        self.rect = rect'''
-        
-        pass
+    def __init__(self, pantalla, ancho, alto):
+        self.salud = 150
+        self.surface = pygame.image.load("img/player.png")
+        self.surface = pygame.transform.scale(self.surface, (ancho, alto))
+        self.rect = self.surface.get_rect()
+        self.rect.y = 615
+        self.rect.centerx = pantalla / 2
+        self.movimiento_aleatorio = False
+        self.tiempo_movimiento_aleatorio = 0
 
-    def crear_personaje():
-        dict_personaje = {}
-        dict_personaje["surface"] = pygame.image.load("img/player.png")
-        dict_personaje["surface"] = pygame.transform.scale(dict_personaje["surface"],(70,70))
-        dict_personaje["rect_pos"] = pygame.Rect(565,615,70,70)
-        dict_personaje["rect"] = pygame.Rect(565,615,70,70)
-        return dict_personaje
+    def mover(self, lista_teclas):
+        if lista_teclas[pygame.K_a]:
+            self.update(-10)
+        if lista_teclas[pygame.K_d]:
+            self.update(10)
 
-def update(personaje, incremento_x):
-    coordenadas = personaje["rect_pos"].x #= personaje["rect_pos"].x + incremento_x
-    if (coordenadas > 195 and coordenadas < 725):
-        personaje["rect_pos"].x = personaje["rect_pos"].x + incremento_x
-        personaje["rect"].x = personaje["rect"].x + incremento_x
-    if coordenadas > 195:
-        coordenadas = 185
-    if coordenadas < 725:
-        coordenadas = 725
-    
-    print(coordenadas)
+    def mover_aleatorio(self):
+        if self.movimiento_aleatorio:
+            self.rect.y = random.randrange(600, 655, 15)
+            self.rect.x = self.rect.x + random.randrange(-10, 10, 5)
 
-def actualizar_pantalla(personaje, screen):
-    pygame.draw.rect(screen, colores.RED1, personaje["rect"])
-    screen.blit(personaje["surface"], personaje["rect"]) 
+    def update(self, incremento):
+        nueva_x = self.rect.x + incremento
+        if (nueva_x > 195 and nueva_x < 940):
+            self.rect.x += incremento
 
-
-
-
-
-
-    #415
-    #725
+    def actualizar_pantalla(self, screen):
+        screen.blit(self.surface, self.rect)
